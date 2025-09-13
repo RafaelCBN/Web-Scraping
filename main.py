@@ -67,7 +67,7 @@ def apagar_produtos():
     print("Todos os resultados foram apagados com sucesso!")
 
 def menu_buscar_produto():
-    termo = input("Digite o nome ou SKU do produto que deseja buscar: ")
+    termo = input("Digite o nome do produto que deseja buscar: ")
     resultados = buscar_produtos(termo, headless=False)
     if resultados:
         for r in resultados:

@@ -23,7 +23,7 @@ def view_data():
         for i, p in enumerate(products, 1):
             sku, titulo, preco, preco_pix, num_p, val_p, info = p
 
-            # Garantir conversão segura
+            #conversao
             try:
                 preco_float = float(preco)
             except (ValueError, TypeError):
@@ -41,7 +41,7 @@ def view_data():
             except (ValueError, TypeError):
                 num_p_int = 0
 
-            # Destaque para valores ausentes
+            #destaque val
             preco_str = f"R$ {preco_float:.2f}" if preco_float > 0 else "N/A"
             preco_pix_str = f"R$ {preco_pix_float:.2f}" if preco_pix_float > 0 else "N/A"
             parcela_str = f"{num_p_int}x de R$ {val_p_float:.2f}" if num_p_int > 0 else "N/A"

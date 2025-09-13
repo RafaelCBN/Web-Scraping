@@ -8,7 +8,7 @@ import re
 import time
 import random
 
-# ------------------- FUNÇÕES AUXILIARES -------------------
+#func aux
 
 def limpar_preco(texto_preco):
     """Extrai primeiro número que parece preço, converte para float."""
@@ -62,7 +62,7 @@ def tentar_aceitar_cookies(driver):
         return False
 
 
-# ------------------- EXTRAÇÃO DE PRODUTO -------------------
+#extraindo o produto
 
 def extrair_produto_individual(driver, url):
     produto_dados = {'sku': "N/A", 'titulo': "N/A", 'preco': 0.0, 'preco_pix': 0.0,
@@ -72,7 +72,7 @@ def extrair_produto_individual(driver, url):
         WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
         time.sleep(0.8)
 
-        # Título
+        #nome
         try:
             titulo_el = driver.find_element(By.CSS_SELECTOR, "h1.product-title")
             titulo_completo = titulo_el.text.strip()
@@ -80,7 +80,7 @@ def extrair_produto_individual(driver, url):
             titulo_completo = driver.title or ""
         produto_dados['titulo'] = re.sub(r'\(Cód\..*\)', '', titulo_completo).strip()
 
-        # SKU
+        #SKU
         match_sku = re.search(r'\(Cód\.(.*?)\)', titulo_completo)
         if match_sku:
             produto_dados['sku'] = match_sku.group(1).strip()
@@ -91,7 +91,7 @@ def extrair_produto_individual(driver, url):
             except:
                 pass
 
-        # Preço principal
+        #preco
         try:
             el_preco = driver.find_element(By.CSS_SELECTOR, "span.price-sales")
             texto = el_preco.get_attribute('innerText')
@@ -101,14 +101,14 @@ def extrair_produto_individual(driver, url):
         except:
             pass
 
-        # Preço PIX
+        #pix
         try:
             el_pix = driver.find_element(By.ID, "pixChangePrice")
             produto_dados['preco_pix'] = limpar_preco(el_pix.text)
         except:
             pass
 
-        # Parcelamento
+        #parcelas
         try:
             parcelas_num = driver.find_element(By.CSS_SELECTOR, "span.installments-number").text.strip()
             parcelas_val = driver.find_element(By.CSS_SELECTOR, "span.installments-amount").text.strip()
@@ -117,7 +117,7 @@ def extrair_produto_individual(driver, url):
         except:
             pass
 
-        # Info técnicas
+        #info técnicas
         try:
             info_el = driver.find_element(By.CSS_SELECTOR, "div.row.product-detail-description")
             produto_dados['info_tecnicas'] = info_el.text.strip().replace('\n', ' | ')
@@ -131,7 +131,7 @@ def extrair_produto_individual(driver, url):
         return None
 
 
-# ------------------- BUSCA DE PRODUTOS -------------------
+#busca de produtos
 
 def buscar_produtos(termo_busca, headless=False):
     termo_normalizado = termo_busca.strip().lower()
